@@ -1,0 +1,29 @@
+- name: Test
+  hosts: bastion
+  vars:
+    dest_iso_dir: /tmp/client
+  tasks:
+
+    - name: Create directory
+      ansible.builtin.file:
+        state: absent
+        path: "{{ dest_iso_dir }}"
+
+    - name: Create directory
+      ansible.builtin.file:
+        state: directory
+        path: "{{ dest_iso_dir }}"
+
+    - name: Set OCP version facts
+      ansible.builtin.import_role:
+        name: ocp_version_facts
+      vars:
+        ocp_version_facts_release: "{{ release }}"
+
+    - name: Deploy/Redeploy OCP client
+      ansible.builtin.import_role:
+        name: oc_client_install
+      vars:
+        oc_client_install_url: "{{ ocp_version_facts_oc_client_pull_link }}"
+        oc_client_install_archive_dest_dir: "{{ dest_iso_dir }}"
+        oc_clinet_install_version: "{{ ocp_version_facts_parsed_release }}"
