@@ -114,6 +114,7 @@
         name: multiclusterhubs.operator.open-cluster-management.io
       register: mch_crd_check
 
+<<<<<<< HEAD:playbooks/ran/hub-sno-configure-acm.yml
     - name: Validate ACM operator is installed
       ansible.builtin.assert:
         that:
@@ -127,6 +128,13 @@
         api_version: operator.open-cluster-management.io/v1
         kind: MultiClusterHub
         name: "{{ mch_cr_name }}"
+=======
+    - name: Check if MultiClusterHub exists (cluster-scoped → no namespace)
+      kubernetes.core.k8s_info:
+        api_version: operator.open-cluster-management.io/v1
+        kind: MultiClusterHub
+        name: multiclusterhub
+>>>>>>> cb0861b (configure-acm.yml: fix format and add resource verification):playbooks/ran/configure-acm.yml
         namespace: "{{ mce_namespace }}"
       register: mch_info
 
@@ -135,7 +143,11 @@
         state: present
         api_version: operator.open-cluster-management.io/v1
         kind: MultiClusterHub
+<<<<<<< HEAD:playbooks/ran/hub-sno-configure-acm.yml
         name: "{{ mch_cr_name }}"
+=======
+        name: multiclusterhub
+>>>>>>> cb0861b (configure-acm.yml: fix format and add resource verification):playbooks/ran/configure-acm.yml
         namespace: "{{ mce_namespace }}"
         definition:
           spec: {}
@@ -145,7 +157,11 @@
       kubernetes.core.k8s_info:
         api_version: operator.open-cluster-management.io/v1
         kind: MultiClusterHub
+<<<<<<< HEAD:playbooks/ran/hub-sno-configure-acm.yml
         name: "{{ mch_cr_name }}"
+=======
+        name: multiclusterhub
+>>>>>>> cb0861b (configure-acm.yml: fix format and add resource verification):playbooks/ran/configure-acm.yml
         namespace: "{{ mce_namespace }}"
       register: mch_info
       until:
@@ -160,6 +176,12 @@
         msg: "MultiClusterHub in namespace '{{ mce_namespace }}' is Running."
       when: mch_info is succeeded
 
+<<<<<<< HEAD:playbooks/ran/hub-sno-configure-acm.yml
+=======
+    # ## ConfigMap and AgentServiceConfig Creation
+    # # -----------------------------------------------------------------------------
+
+>>>>>>> cb0861b (configure-acm.yml: fix format and add resource verification):playbooks/ran/configure-acm.yml
     - name: Create ConfigMap for mirror registry
       vars:
         registry_host_url: disconnected.registry.local:5000
@@ -228,6 +250,12 @@
                 url: "{{ rhcos_iso_url }}"
                 cpuArchitecture: "x86_64"
 
+<<<<<<< HEAD:playbooks/ran/hub-sno-configure-acm.yml
+=======
+    # ## Wait for assisted-service Pod
+    # # -----------------------------------------------------------------------------
+
+>>>>>>> cb0861b (configure-acm.yml: fix format and add resource verification):playbooks/ran/configure-acm.yml
     - name: Wait for assisted-service pod to be running
       kubernetes.core.k8s_info:
         kind: Pod
@@ -246,6 +274,12 @@
         msg: "assisted-service pod in namespace '{{ mce_namespace }}' is Ready."
       when: assisted_service_wait is succeeded
 
+<<<<<<< HEAD:playbooks/ran/hub-sno-configure-acm.yml
+=======
+    # ## Provisioning and Metal3 Wait
+    # # -----------------------------------------------------------------------------
+
+>>>>>>> cb0861b (configure-acm.yml: fix format and add resource verification):playbooks/ran/configure-acm.yml
     - name: Apply Provisioning resource
       kubernetes.core.k8s:
         state: present
